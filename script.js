@@ -13,32 +13,40 @@ function handleFetch() {
 
         const cardsList = document.querySelector('.cards-list');
         cardsList.insertAdjacentHTML('beforeend', markupCards);
-        console.log(data);
 
         const modal = document.querySelector('.modal');
 
         const btnOpenModal = document.querySelectorAll('.js-open-modal');
         btnOpenModal.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                modal.classList.remove('modal--hidden');
-            })
+            btn.addEventListener('click', showModal)
         })
 
         const btnCloseModal = document.querySelectorAll('.js-close-modal')
         btnCloseModal.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                modal.classList.add('modal--hidden');
+            btn.addEventListener('click', hideModal)
+        })
+
+        const modalBackdrop = document.querySelectorAll('.js-modal-backdrop');
+        const modalWindow = document.querySelector('.modal__window')
+        modalBackdrop.forEach((item) => {
+            item.addEventListener('click', (event) => {
+                if(modalWindow === event.target) return;
+                
+                hideModal();
             })
         })
 
-        // const modalBackdrop = document.querySelectorAll('.js-modal-backdrop');
-        // modalBackdrop.forEach((item) => {
-        //     item.addEventListener('click', () => {
-        //         modal.classList.remove('modal--hidden');    
-        //     })
-        // })
+        function hideModal() {
+            modal.classList.add('modal--hidden');
+        }
+
+        function showModal() {
+            modal.classList.remove('modal--hidden');
+        }
     })
 }
+
+
 
 function createCardsList() {
     return `
@@ -96,8 +104,6 @@ function fetchUsers() {
             console.log('ERROR: ', error);
         });
 }
-
-
 
 handleFetch()
 
